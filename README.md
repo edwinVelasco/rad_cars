@@ -25,3 +25,6 @@ Para ejecutar el servidor debe estar así.
     # command: python manage.py migrate
     command: python manage.py runserver 0.0.0.0:8000
 
+la ejecución en docker se debe hacer con, y ejecutar cuando se hagan los cambios de migración y ejecutar el servidor
+
+        docker-compose up
