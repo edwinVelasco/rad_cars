@@ -11,21 +11,21 @@ services:
       POSTGRES_USER: admin
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_DB: "test"
-  api:
-    container_name: rad_cars
-    build:
-      context: .
-      dockerfile: Dockerfile
-    working_dir: /rad_cars
-    # command: python manage.py migrate
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/rad_cars
-    ports:
-      - '8000:8000'
-    expose:
-      - '8000'
-    links:
-      - postgres
-    depends_on:
-      - postgres
+#  api:
+#    container_name: rad_cars
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    working_dir: /rad_cars
+#    # command: python manage.py migrate
+#    command: python manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - .:/rad_cars
+#    ports:
+#      - '8000:8000'
+#    expose:
+#      - '8000'
+#    links:
+#      - postgres
+#    depends_on:
+#      - postgres
