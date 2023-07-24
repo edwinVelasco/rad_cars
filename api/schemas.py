@@ -13,3 +13,4 @@ class ProductSchemas(BaseModel):
     category: int = Annotated[int, Gt(0)]
     images: list[str]
     profit: Optional[int]
+    transmission: Optional[str]

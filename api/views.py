@@ -119,7 +119,7 @@ class ProductView(APIView):
         if product_json.is_valid():
             product_json.save()
             return Response(product_json.data, status=201)
-        return Response(product_json.errors, status=400)
+        return Response(product_json.errors.json(), status=400)
 
 
 class DetailProductView(APIView):
@@ -136,7 +136,10 @@ class DetailProductView(APIView):
 
     def put(self, request, pk):
         product = self.get_object(pk)
-        product_json = ProductSerializer(product, data=request.data)
+        product_data = ProductSchemas(**request.data).dict()
+        product_json = ProductSerializerCreate(product, data=product_data)  # UnMarshall
+        # product = self.get_object(pk)
+        # product_json = ProductSerializer(product, data=request.data)
         if product_json.is_valid():
             product_json.save()
             return Response(product_json.data, status=200)
