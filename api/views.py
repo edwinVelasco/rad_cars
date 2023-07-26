@@ -276,7 +276,7 @@ class DetailModelView(APIView):
 
     def put(self, request, pk):
         model = self.get_object(pk)
-        model_json = ModelSerializer(model, data=request.data)
+        model_json = ModelSerializerCreate(model, data=request.data)
         if model_json.is_valid():
             model_json.save()
             return Response(model_json.data, status=200)
