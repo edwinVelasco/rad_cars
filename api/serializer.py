@@ -15,6 +15,12 @@ class MarkSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class ModelSerializerView(serializers.ModelSerializer):
+    class Meta:
+        model = Model
+        fields = ('id', 'name')
+
+
 class ModelSerializer(serializers.ModelSerializer):
     mark = MarkSerializer(read_only=True)
 

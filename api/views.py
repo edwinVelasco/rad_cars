@@ -1,3 +1,5 @@
+import json
+
 from django.db.models import ProtectedError
 from django.db.models import Q
 
@@ -10,7 +12,8 @@ from rest_framework.response import Response
 from .models import Provider, Product, Quotation, Mark, Model, Category
 from .serializer import ProviderSerializer, ProductSerializer, \
     QuotationSerializer, QuotationSerializerCreate, MarkSerializer, \
-    ModelSerializer, CategorySerializer, ModelSerializerCreate, ProductSerializerCreate
+    ModelSerializer, CategorySerializer, ModelSerializerCreate, ProductSerializerCreate, \
+    ModelSerializerView
 
 from .schemas import ProductSchemas
 
@@ -204,10 +207,24 @@ class DetailQuotationView(APIView):
 
 class MarkView(APIView):
 
+    def get_models(self, mark_id):
+        models_json = ModelSerializerView(Model.objects.filter(mark_id=mark_id), many=True)
+        return json.loads(models_json.data)
+
     def get(self, request):
         marks = Mark.objects.all()
         mark_json = MarkSerializer(marks, many=True)
-        return Response(mark_json.data)
+        marks = json.loads(mark_json.data)
+        response = []
+        for mark in marks:
+            mark['models'] = self.get_models(mark_id=mark.id)
+            response.append(mark)
+
+        return Response(json.dumps(response))
+
+    # marks = Mark.objects.all()
+    # mark_json = MarkSerializer(marks, many=True)
+    # return Response(mark_json.data)
 
     def post(self, request):
         mark_json = MarkSerializer(data=request.data) #UnMarshall
