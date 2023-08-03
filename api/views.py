@@ -214,11 +214,7 @@ class MarkView(APIView):
     def get(self, request):
         marks = Mark.objects.all()
         marks_response = [{"id": mark.id, "name": mark.name, "models": self.get_models(mark_id=mark.id)} for mark in marks]
-        return Response(json.dumps(marks_response))
-
-    # marks = Mark.objects.all()
-    # mark_json = MarkSerializer(marks, many=True)
-    # return Response(mark_json.data)
+        return Response(marks_response)
 
     def post(self, request):
         mark_json = MarkSerializer(data=request.data) #UnMarshall
