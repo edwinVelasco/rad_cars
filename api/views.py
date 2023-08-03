@@ -208,19 +208,13 @@ class DetailQuotationView(APIView):
 class MarkView(APIView):
 
     def get_models(self, mark_id):
-        models_json = ModelSerializerView(Model.objects.filter(mark_id=mark_id), many=True)
-        return json.loads(models_json.data)
+        models = Model.objects.filter(mark_id=mark_id)
+        return [{'id': model.id, 'name': model.name} for model in models]
 
     def get(self, request):
         marks = Mark.objects.all()
-        mark_json = MarkSerializer(marks, many=True)
-        marks = json.loads(mark_json.data)
-        response = []
-        for mark in marks:
-            mark['models'] = self.get_models(mark_id=mark.id)
-            response.append(mark)
-
-        return Response(json.dumps(response))
+        marks_response = [{"id": mark.id, "name": mark.name, "models": self.get_models(mark_id=mark.id)} for mark in marks]
+        return Response(json.dumps(marks_response))
 
     # marks = Mark.objects.all()
     # mark_json = MarkSerializer(marks, many=True)
