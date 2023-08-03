@@ -334,11 +334,11 @@ class DetailCategoryView(APIView):
     def get(self, request, pk):
         category = self.get_object(pk)
         category_json = CategorySerializer(category)
-        return Response(category.data, status=200)
+        return Response(category_json.data, status=200)
 
     def put(self, request, pk):
         category = self.get_object(pk)
-        category_json = ModelSerializer(category, data=request.data)
+        category_json = CategorySerializer(category, data=request.data)
         if category_json.is_valid():
             category_json.save()
             return Response(category_json.data, status=200)
