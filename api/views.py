@@ -87,11 +87,10 @@ class ProductView(APIView):
             if 'category' in request.query_params:
                 filters['category'] = request.query_params['category']
 
-            if 'mark' in request.query_params:
-                filters['mark_model__mark'] = request.query_params['mark']
-
             if 'model' in request.query_params:
                 filters['mark_model'] = request.query_params['model']
+            elif 'mark' in request.query_params:
+                filters['mark_model__mark'] = request.query_params['mark']
 
             if 'name' in request.query_params:
                 names = request.query_params['name'].split(' ')
