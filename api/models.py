@@ -33,7 +33,8 @@ class Mark(models.Model):
 
 class Model(models.Model):
     name = models.CharField(max_length=40)
-    mark = models.ForeignKey(Mark, on_delete=models.PROTECT)
+    mark = models.ForeignKey(Mark, on_delete=models.PROTECT,
+                             related_name='mark_models')
 
     class Meta:
         db_table = "rad_cars_models"
@@ -44,7 +45,7 @@ class Model(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(unique=True)
+    name = models.CharField(unique=True, max_length=20)
 
     class Meta:
         db_table = "rad_cars_categories"
@@ -61,13 +62,16 @@ class Product(models.Model):
     price = models.IntegerField(null=False, blank=False)
     stock = models.IntegerField(default=None, null=True, blank=True)
     mark_model = models.ForeignKey(Model, on_delete=models.PROTECT,
-                                   null=True, default=None)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+                                   null=True, default=None,
+                                   related_name='marks_products')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+                                 related_name='categories')
 
     images = models.JSONField(blank=True, default=None, null=True)
     profit = models.IntegerField(blank=True, default=None)
 
-    transmission = models.CharField(max_length=50, null=True, blank=True, default=None)
+    transmission = models.CharField(max_length=50, null=True, blank=True,
+                                    default=None)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
