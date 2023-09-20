@@ -10,9 +10,9 @@ RUN pip3 install -r requirements.txt
 
 # RUN pip3 install django-cors-headers
 
-CMD python manage.py makemigrations && python manage.py migrate
+# CMD python3 manage.py makemigrations && python3 manage.py migrate
 
-# RUN python manage.py makemigrations
-# RUN python manage.py migrate
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
 
 # CMD ["python", "-m","pip3", "install", "django-cors-headers"]
